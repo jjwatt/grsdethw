@@ -48,14 +48,17 @@ class Home(BasePage):
     stock_type_element = StockTypeElement()
     make_element = MakeElement()
     model_element = ModelElement()
-
+    zip_code_element = ZipCodeElement()
+    price_max_element = PriceMaxElement()
+    radius_element = RadiusElement()
+    
     def title_looks_right(self):
         """Verifies that the home page title looks right."""
         return "Cars" in self.driver.title
 
     def click_search_button(self):
         """Triggers the search."""
-        element = self.driver.find_element(*HomePageLocators.search)
+        element = self.driver.find_element(*HomePageLocators.search_button)
         element.click()
 
     def get_home_page(self):

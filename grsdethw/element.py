@@ -37,5 +37,3 @@ class SelectPageElement(BasePageElement):
         )
         selector = Select(driver.find_element(*self.locator))
         selector.select_by_visible_text(value)
-        # driver.find_element(self.locator).deselect_all()
-        # driver.find_element(self.locator).select_by_value(value)

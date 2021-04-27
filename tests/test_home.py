@@ -25,7 +25,7 @@ def home_page(driver):
     # after all tests are done with it.
     # This allows re-entry from pytest, and then we close() the page.
     yield home
-    # home.close()
+    home.close()
 
 
 # Scoping this as module means the fixture will be cached for all tests.
@@ -43,7 +43,6 @@ def test_load_home(home_page):
 
 def test_select_make(home_page):
     home_page.make_element = "Honda"
-    # home_page.click_search_button()
 
 
 def test_select_model(home_page):
