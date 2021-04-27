@@ -25,7 +25,7 @@ def home_page(driver):
     # after all tests are done with it.
     # This allows re-entry from pytest, and then we close() the page.
     yield home
-    home.close()
+    # home.close()
 
 
 # Scoping this as module means the fixture will be cached for all tests.
@@ -51,3 +51,22 @@ def test_select_model(home_page):
 
 def test_select_stock_type(home_page):
     home_page.stock_type_element = "Used Cars"
+
+
+def test_set_zip_code(home_page):
+    home_page.zip_code_element = "60008"
+
+
+def test_select_price_max_element(home_page):
+    # TODO(jjwatt): #1 Write a max_price(50000)
+    home_page.price_max_element = "$50,000"
+
+
+def test_select_radius_element(home_page):
+    # These strings need to be exact.
+    # TODO(jjwatt): Consider writing, e.g., miles_from(100)
+    home_page.radius_element = "100 Miles from"
+
+
+def test_search(home_page):
+    home_page.click_search_button()

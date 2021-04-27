@@ -51,7 +51,7 @@ class Home(BasePage):
     zip_code_element = ZipCodeElement()
     price_max_element = PriceMaxElement()
     radius_element = RadiusElement()
-    
+
     def title_looks_right(self):
         """Verifies that the home page title looks right."""
         return "Cars" in self.driver.title
