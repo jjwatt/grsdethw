@@ -1,29 +1,46 @@
-from . element import BasePageElement, SelectPageElement
-from . locators import HomePageLocators
+from .element import BasePageElement, SelectPageElement
+from .locators import HomePageLocators
+
 
 class StockTypeElement(SelectPageElement):
     """Class to select used or new."""
+
     locator = HomePageLocators.stock_type
+
+
 class MakeElement(SelectPageElement):
     """Class to get or set the 'make' element on the page."""
+
     locator = HomePageLocators.make
+
+
 class ModelElement(SelectPageElement):
     locator = HomePageLocators.model
+
+
 class PriceMaxElement(SelectPageElement):
     locator = HomePageLocators.price_max
+
+
 class RadiusElement(SelectPageElement):
     locator = HomePageLocators.radius
+
+
 class ZipCodeElement(BasePageElement):
     """Class to access the Zip Code element on the page."""
+
     locator = HomePageLocators.zip_code
+
 
 class BasePage(object):
     """Base page class."""
 
     def __init__(self, driver):
         self.driver = driver
+
     def close(self):
         self.driver.close()
+
 
 class Home(BasePage):
     """Home page action methods."""
@@ -31,7 +48,7 @@ class Home(BasePage):
     stock_type_element = StockTypeElement()
     make_element = MakeElement()
     model_element = ModelElement()
-    
+
     def title_looks_right(self):
         """Verifies that the home page title looks right."""
         return "Cars" in self.driver.title
