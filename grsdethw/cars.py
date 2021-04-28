@@ -2,6 +2,11 @@ from .element import BasePageElement, SelectPageElement
 from .locators import HomePageLocators
 
 
+class StockType(object):
+    used = "Used Cars"
+    new = "New Cars"
+
+
 class StockTypeElement(SelectPageElement):
     """Class to select used or new."""
 
@@ -21,8 +26,32 @@ class ModelElement(SelectPageElement):
 class PriceMaxElement(SelectPageElement):
     locator = HomePageLocators.price_max
 
+    @staticmethod
+    def fix_value(value):
+        """Make int or str values look like price max elements.
+        Input:
+            value: str or int or anything that converts properly
+        Output:
+            A string price with a '$' and ',' separating thousands places.
+            Examples:
+              20000 -> '$20,000'
+              '20000' -> '$20,000'
+              '20,000' -> '$20,000'
+              '$20,000' -> '$20,000' (idempotent)
+        """
+        val = value
+        if not isinstance(val, str):
+            val = str(val)
+        if val.startswith("$"):
+            val = val[1:]
+        if "," not in val:
+            val = "{:,}".format(int(value))
+        return "".join(["$", val])
+
 
 class RadiusElement(SelectPageElement):
+    """Car is within X miles away."""
+
     locator = HomePageLocators.radius
 
 
@@ -59,7 +88,28 @@ class Home(BasePage):
     def click_search_button(self):
         """Triggers the search."""
         element = self.driver.find_element(*HomePageLocators.search_button)
-        element.click()
+        element.submit()
 
     def get_home_page(self):
         self.driver.get("http://www.cars.com")
+
+    def set_max_price(self, value):
+        """Set the max price select elemnt.
+        Input:
+            value: str or int - will be converted
+                   to the right format. e.g.,
+                   20000 or "20000" -> "$20,000"
+        Returns: None
+        """
+        # Make sure the price format is
+        # "$50,000"
+        # Accept ints or strs and use
+        # str.format() to add the comma.
+        PriceMaxElement.fix_value(value)
+        self.price_max_element = value
+
+
+class SearchResultsPage(BasePage):
+    """The results page after a search."""
+
+    pass
