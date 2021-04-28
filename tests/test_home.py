@@ -24,8 +24,9 @@ def home_page(driver):
     # Use "yield" instead of return so that we can teardown the fixture
     # after all tests are done with it.
     # This allows re-entry from pytest, and then we close() the page.
-    yield home
+    # yield home
     # home.close()
+    return home
 
 
 # Scoping this as module means the fixture will be cached for all tests.
@@ -50,7 +51,7 @@ def test_select_model(home_page):
 
 
 def test_select_stock_type(home_page):
-    home_page.stock_type_element = "Used Cars"
+    home_page.stock_type_element = cars.StockType.used
 
 
 def test_set_zip_code(home_page):
@@ -68,5 +69,6 @@ def test_select_radius_element(home_page):
     home_page.radius_element = "100 Miles from"
 
 
-def test_search(home_page):
+def test_search(home_page, driver):
     home_page.click_search_button()
+    search_results_page = cars.SearchResultsPage(driver)
