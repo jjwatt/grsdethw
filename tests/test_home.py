@@ -1,6 +1,11 @@
+import time
+
 import pytest
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 from grsdethw import cars
 
@@ -59,8 +64,7 @@ def test_set_zip_code(home_page):
 
 
 def test_select_price_max_element(home_page):
-    # TODO(jjwatt): #1 Write a max_price(50000)
-    home_page.price_max_element = "$50,000"
+    home_page.set_max_price("$50,000")
 
 
 def test_select_radius_element(home_page):
@@ -72,3 +76,9 @@ def test_select_radius_element(home_page):
 def test_search(home_page, driver):
     home_page.click_search_button()
     search_results_page = cars.SearchResultsPage(driver)
+    try:
+        element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "srpFilters"))
+        )
+    finally:
+        driver.close()
